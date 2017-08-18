@@ -1,0 +1,42 @@
+<%= form_for @reservation do |r| %>
+	<input type="hidden" name="id" value=<%= @listing.id %>>
+	<div style='display: inline; position: relative;'>
+	    <input type='text' id='datetimepicker1' name="starting_date" placeholder="Check in">
+	</div>
+	<div style='display: inline; position: relative;'>
+	    <input type='date' id='datetimepicker2' name="end_date" placeholder="Check out">
+	</div>
+	<%= r.submit "Submit date" %>
+	<script>
+	<% dates = [] %>
+	<% reservations = @listing.reservations %>
+	<% reservations.each do |r| %>
+		<% sdate = r.starting_date.strftime("%Y-%m-%d") %>
+		<% sdate = sdate.split("-") %>
+		<% edate = r.end_date.strftime("%Y-%m-%d") %>
+		<% edate = edate.split("-") %>
+		<% (Date.new(sdate[0].to_i,sdate[1].to_i,sdate[2].to_i)..Date.new(edate[0].to_i,edate[1].to_i,edate[2].to_i)).each do |date| %>
+		<% dates << date %>
+		<% end %>
+	<% end %>
+		$('#datetimepicker1,#datetimepicker2').datetimepicker({
+			format: 'YYYY-MM-DD',
+            useCurrent: false,
+            minDate: moment(),
+            disabledDates: <%= raw dates.to_json %>
+        });
+        $('#datetimepicker1').datetimepicker().on('dp.change', function (e) {
+            var incrementDay = moment(new Date(e.date));
+            incrementDay.add(1, 'days');
+            $('#datetimepicker2').data('DateTimePicker').minDate(incrementDay);
+            $(this).data("DateTimePicker").hide();
+        });
+
+        $('#datetimepicker2').datetimepicker().on('dp.change', function (e) {
+            var decrementDay = moment(new Date(e.date));
+            decrementDay.subtract(1, 'days');
+            $('#datetimepicker1').data('DateTimePicker').maxDate(decrementDay);
+             $(this).data("DateTimePicker").hide();
+        });
+	</script>
+<% end %>

@@ -1,0 +1,35 @@
+<%= form_for "", :url => listings_path, :method => "get" do |search| %>
+<%= search.text_field :content, :placeholder => "Search Bar" %>
+<%= search.submit "Go!!!" %>
+<% end %>
+<h1>List of listings</h1>
+<%= link_to 'Create Listing', new_listing_path %>
+<p>--------------------------------------------</p>
+<% if @listings %>
+	<% @listings.each do |l| %>
+	<h2><%= l.product_name %></h5>
+	<ul>
+		<li><%= l.price %> USD</li>
+		<li>Listed by: <%= l.user.email %></li>
+		<%= link_to "Show", listing_path(l) %>
+	</ul>
+	<p>--------------------------------------------</p>
+	<% end %>
+	<% @page = @page.to_i %>
+	<% if Listing.count / 10 == 0 %>
+	<% elsif @page == 0 %>
+		<%= link_to "Next page", listings_path(page: @page + 1, content: params[:content]) %>
+		<%= link_to "Last", listings_path(page: @page = @page_limit, content: params[:content]) %><br>
+	<% elsif @page == @page_limit.to_i %>
+		<%= link_to "First", listings_path(page: @page = 0, content: params[:content]) %>
+		<%= link_to "Previous page", listings_path(page: @page - 1, content:params[:content]) %><br>
+	<% else %>
+		<%= link_to "First", listings_path(page: @page = 0, content: params[:content]) %>
+		<%= link_to "Previous page", listings_path(page: @page - 1, content: params[:content]) %>
+		<%= link_to "Next page", listings_path(page: @page + 1, content: params[:content]) %>
+		<%= link_to "Last", listings_path(page: @page = @page_limit,content: params[:content]) %><br>
+	<% end %>
+<% else %>
+	<h5>Listing is empty</h5>
+<% end %>
+<%= link_to "Profile", user_path(current_user) %>

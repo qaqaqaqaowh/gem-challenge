@@ -1,0 +1,10 @@
+<%= form_for @listing do |l| %>
+<%= l.file_field :avatars, multiple: true, :style => "margin-left: auto; width: 240px; margin-right: auto;" %>
+<%= l.label "Product Name" %><br>
+<%= l.text_field :product_name %><br>
+<%= l.label "Price" %><br>
+<%= l.text_field :price %><br>
+<%= l.label "Tags(seperated by spaces)" %>
+<%= l.text_field :tags, value:"" %>
+<%= l.submit "Submit listing" %>
+<% end %>

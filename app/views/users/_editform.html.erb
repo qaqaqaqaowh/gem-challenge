@@ -1,0 +1,4 @@
+<%= form_for @user do |u| %>
+<%= u.file_field :avatar, :style => "margin-left: auto; width: 240px; margin-right: auto;" %>
+<%= u.submit "Change!" %>
+<% end %>

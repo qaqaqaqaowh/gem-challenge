@@ -1,0 +1,13 @@
+<h1>Listing Edit Form</h1>
+<p>---------------------------------------------</p>
+<h1><%= @listing.product_name %></h1>
+<ul>
+	<li><b>Price: RM<%= @listing.price %></b></li>
+	<li><b>Listed By: <%= @listing.user.email %></b></li>
+</ul>
+<p>---------------------------------------------</p>
+<%= render 'edit_form' %>
+<p>---------------------------------------------</p>
+<%= link_to "Back", listing_path(@listing) %>
+<%= link_to "Back to listings", listings_path %>
+<%= link_to "Back to profile", user_path(current_user) %>

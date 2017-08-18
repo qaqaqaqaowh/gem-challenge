@@ -1,0 +1,28 @@
+<a href=current_user_path><div id="profile_pic">
+	<% if !current_user.avatar.file.nil? %>
+		<img style="height: 200px; width: 200px; border-radius: 100px;" src=<%= current_user.avatar.url %> >
+	<% end %>
+</div></a>
+<h1><%= current_user.email %></h1>
+<%= link_to "Edit profile",edit_user_path(current_user) %><br>
+<% if @reservations.count != 0 %>
+	<h1>My reservations</h1>
+	<p>------------------------------------------------</p>
+	<% @reservations = @reservations.order(:starting_date) %>
+	<% @reservations.each do |reservation| %>
+		<h2><%= reservation.listing.product_name %></h2>
+		<ul>
+			<li>Check in: <%= reservation.starting_date %></li>
+			<li>Check out: <%= reservation.end_date %></li>
+			<li>Paid: <%= reservation.paid.to_s.capitalize %></li>
+			<% if reservation.paid == false %>
+			<p>Try again after 15 minutes</p>
+			<% end %>
+		</ul>
+		<%= link_to "Show", listing_path(reservation.listing) %>
+		<p>------------------------------------------------</p>
+	<% end %>
+<% else %>
+<% end %>
+<%= link_to 'Create Listing', new_listing_path %><br>
+<%= link_to 'List of Listings', listings_path %>

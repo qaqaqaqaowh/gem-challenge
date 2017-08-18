@@ -1,0 +1,6 @@
+<%= form_for @tags do |t| %>
+<input type="hidden" name="id" value=<%= @listing.id %>>
+<%= t.label "Tag Description(seperate each tag by spacing)" %><br>
+<%= t.text_field :description %>
+<%= t.submit %>
+<% end %>

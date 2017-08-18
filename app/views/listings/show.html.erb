@@ -1,0 +1,67 @@
+<% if @listing.avatars.count != 0 %>
+	
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 700px; margin-left: auto; margin-right: auto;">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+	  	<% @listing.avatars.each_with_index do |a,b| %>
+	  		<li data-target="#myCarousel" data-slide-to="<%= b %>" class="<%= 'active' if b == 0 %>">
+	  		</li>
+	  	<% end %>
+	  </ol>
+
+	  <!-- Wrapper for slides -->
+	  <div class="carousel-inner">
+	  	<% @listing.avatars.each_with_index do |a,b| %>
+		    <div class="item <%= 'active' if b == 0 %>">
+		      <a href=<%= @listing.avatars[b].url %> ><img style="width: 700px; height: 339px;" src=<%= @listing.avatars[b].url %> ></a>
+		    </div>
+	    <% end %>
+	  </div>
+
+	  <!-- Left and right controls -->
+	  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left"></span>
+	    <span class="sr-only">Previous</span>
+	  </a>
+	  <a class="right carousel-control" href="#myCarousel" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right"></span>
+	    <span class="sr-only">Next</span>
+	  </a>
+	</div>
+	<%# end %>
+<% end %>
+<h1><%= @listing.product_name %></h1>
+<ul>
+	<li><b>Price: RM<%= @listing.price %></b></li>
+	<li><b>Listed By: <%= @listing.user.email %></b></li>
+</ul>
+<% if @tags.length != 0 %>
+	<p>
+	<% @tags.each do |tag| %>
+		<% if current_user.email == @listing.user.email %>
+		&lt; <%= link_to tag.description, tag_path(tag,listing_id: @listing.id),method: :delete, data: { confirm: "Are You Sure?"} %> &gt;
+		<% else %>
+		&lt; <%= tag.description %> &gt;
+		<% end %>
+	<% end %>
+	</p>
+<% else %>
+	<p>This listing has no tags</p>
+<% end %>
+<%= link_to "Create Tag", new_tag_path(@listing), id: "tag_btn" %><br><br>
+<% if current_user.email == @listing.user.email %>
+	<div id="nav_s">
+		<%= link_to "Reserve", new_reservation_path(@listing), class: 'nav_button' %>
+		<%= link_to "Edit", edit_listing_path(@listing), class: 'nav_button' %>
+		<%= link_to "Delete", listing_path(@listing), method: :delete, data: {confirm: "Are you sure?"}, class: 'nav_button' %>
+	</div>
+<% else %>
+	<div id="nav_s" style="width: 6%;">
+		<%= link_to "Reserve", new_reservation_path(@listing), class: 'nav_button' %>
+	</div>
+<% end %>
+<p>--------------------------------------------</p>
+<div id="nav_l">
+	<%= link_to "Back to listings", listings_path, class: 'nav_button' %>
+	<%= link_to "Back to profile", user_path(current_user), class: 'nav_button' %>
+</div>
