@@ -1,6 +1,7 @@
 class Reservation < ApplicationRecord
 	belongs_to :listing
 	belongs_to :user
+	validates :end_date, :starting_date, presence: true
 	validate :overlap, on: :create
 
 	def overlap

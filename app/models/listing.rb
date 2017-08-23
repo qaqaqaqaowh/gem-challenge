@@ -3,4 +3,5 @@ class Listing < ApplicationRecord
 	belongs_to :user
 	has_and_belongs_to_many :tags
 	has_many :reservations, dependent: :destroy
+	validates :price, presence: true
 end
