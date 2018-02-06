@@ -38,3 +38,5 @@ def index
 		
 		# @listings = @listings.order("price, product_name")
 	end
+
+test

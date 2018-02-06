@@ -7,7 +7,7 @@ class Reservation < ApplicationRecord
 	def overlap
 		reservations = Reservation.where(listing_id: listing_id)
 		reservations.each{|r|
-			if starting_date >= r.starting_date && end_date <= r.end_date
+			if starting_date <= r.starting_date && end_date >= r.end_date
 				errors.add(:date ,"Date has been booked")
 				break
 			end
